@@ -1,3 +1,5 @@
+require_relative 'student'
+
 # class name
 class Person
 
