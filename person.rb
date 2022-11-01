@@ -5,9 +5,9 @@ class Person
   def initialize(name , age, parent_permission )
     # instance variable initialization
     @id
-    @name = 'Unkown'
+    @name = name
     @age = age
-    parent_permission = true
+    parent_permission = parent_permission
   end
 
   # Classical get method
@@ -24,8 +24,10 @@ class Person
     return true if @age >= 18
   end
 
-  def can_use_services?
-    if (@age >= 18 ||
+  def can_use_services?(parent_permission)
+    if (@age >= 18 || parent_permission != false)
+      return true
+    end
   end
 
 end
@@ -46,16 +48,20 @@ Name = gets.chomp
 print "Has parent permission? [Y/N]: "
 Parent_permission = gets.chomp
 
-personValidate = Person.new(Name, Age, Parent_permission)
-
-validateAge = personValidate.is_of_age?
-
-validatePermission = personValidate.can_use_services?
-
-if validateAge
-  setName = personValidate.name = Name
+if Parent_permission == "Y"
+  parent_permission = true
 else
-  setPermission = personValidate.name = Name
+  parent_permission = false
 end
 
-p personValidate
+personValidate = Person.new('Unknown', Age, true)
+
+validateAge = personValidate.is_of_age?
+validatePermission = personValidate.can_use_services?(parent_permission)
+
+if (validateAge || validatePermission)
+  setName = personValidate.name = Name
+  puts 'Person created successfully'
+else
+  p "Student is underage or has not parent permission"
+end
